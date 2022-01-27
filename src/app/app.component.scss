@@ -1,0 +1,28 @@
+.grid {
+  width: 100%;
+  padding: 20px;
+  max-width: 500px;
+  text-align: center;
+  padding-bottom: 100px;
+
+  .row {
+    margin: 10px 0;
+
+    .cell {
+      padding: 1px 4px;
+  
+      input {
+        height: 50px;
+        width: 50px;
+        text-align: center;
+        font-size: 24pt;
+        font-weight: bold;
+        background-color: #111111; //(blank)
+        //background-color: #313131; //(wrong)
+        //background-color: #E9A11B; //(misplaced)
+        //background-color: #33B933; //(correct)
+        color: #dddddd;
+      }
+    }
+  }
+}

@@ -1,1 +1,12 @@
-<router-outlet></router-outlet>
+<mat-toolbar color="primary">
+  <span>WORDLE</span>
+</mat-toolbar>
+
+
+<div class="grid">
+  <div class="row" *ngFor="let row of grid; index as r">
+    <span *ngFor="let col of row; index as c" class="cell">
+      <input id="cell-{{r}}{{c}}" type="text" [value]="col" />
+    </span>
+  </div>
+</div>
