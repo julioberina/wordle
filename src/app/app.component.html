@@ -2,11 +2,31 @@
   <span>WORDLE</span>
 </mat-toolbar>
 
-
 <div class="grid">
   <div class="row" *ngFor="let row of grid; index as r">
     <span *ngFor="let col of row; index as c" class="cell">
       <input id="cell-{{r}}{{c}}" type="text" [value]="col" />
+    </span>
+  </div>
+</div>
+
+<div class="keyboard">
+  <div class="row">
+    <span class="key" *ngFor="let key of kbFirstRow">
+      <button id="key{{key}}" (click)="typeLetter(key)">{{ key }}</button>
+    </span>
+  </div>
+  <div class="row">
+    <span class="key" *ngFor="let key of kbSecondRow">
+      <button id="key{{key}}" (click)="typeLetter(key)">{{ key }}</button>
+    </span>
+  </div>
+  <div class="row">
+    <span class="key">
+      <button id="return" mat-icon-button>keyboard_return</button>
+    </span>
+    <span class="key" *ngFor="let key of kbThirdRow">
+      <button id="key{{key}}" (click)="typeLetter(key)">{{ key }}</button>
     </span>
   </div>
 </div>
