@@ -52,4 +52,9 @@ export class AppComponent implements OnInit {
       this.myCol -= 1;
     }
   }
+
+  enterWord() {
+    this.myRow += 1;
+    this.myCol = 0;
+  }
 }
