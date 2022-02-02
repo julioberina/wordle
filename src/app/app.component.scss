@@ -1,6 +1,9 @@
 mat-toolbar {
   height: 10%;
   background-color: #dddddd;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .container {
