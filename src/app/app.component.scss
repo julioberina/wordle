@@ -1,52 +1,63 @@
-.grid {
-  width: 100%;
-  padding: 20px;
-  max-width: 500px;
-  text-align: center;
-  padding-bottom: 100px;
+mat-toolbar {
+  height: 10%;
+  background-color: #dddddd;
+}
 
-  .row {
-    margin: 10px 0;
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90%;
 
-    .cell {
-      padding: 1px 4px;
+  .grid {
+    width: 100%;
+    padding: 20px;
+    max-width: 500px;
+    text-align: center;
   
-      input {
-        height: 50px;
-        width: 50px;
-        text-align: center;
-        font-size: 24pt;
-        font-weight: bold;
-        background-color: #111111; //(blank)
-        //background-color: #313131; //(wrong)
-        //background-color: #E9A11B; //(misplaced)
-        //background-color: #33B933; //(correct)
-        color: #dddddd;
+    .row {
+      margin: 10px 0;
+  
+      .cell {
+        padding: 1px 4px;
+    
+        input {
+          height: 50px;
+          width: 50px;
+          text-align: center;
+          font-size: 24pt;
+          font-weight: bold;
+          background-color: #111111; //(blank)
+          //background-color: #313131; //(wrong)
+          //background-color: #E9A11B; //(misplaced)
+          //background-color: #33B933; //(correct)
+          color: #dddddd;
+        }
       }
     }
   }
-}
-
-.keyboard {
-  width: 100%;
-  max-width: 500px;
-  text-align: center;
-
-  .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-
-    .key {
-      button {
-        height: 50px;
-        padding: 8px;
-        margin: 3px;
-        border-radius: 7px;
-        font-weight: bold;
-        text-align: center;
-        background-color: #111111;
-        color: #dddddd;
+  
+  .keyboard {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+  
+    .row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+  
+      .key {
+        button {
+          height: 50px;
+          padding: 8px;
+          margin: 3px;
+          border-radius: 7px;
+          font-weight: bold;
+          text-align: center;
+          background-color: #111111;
+          color: #dddddd;
+        }
       }
     }
   }
