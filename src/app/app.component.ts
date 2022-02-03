@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import * as randomWords from 'random-words';
+import { HelpDialogComponent } from './help-dialog/help-dialog.component';
+import { StatsDialogComponent } from './stats-dialog/stats-dialog.component';
 
 enum Letter {
   Blank,
@@ -33,7 +36,7 @@ export class AppComponent implements OnInit {
     ['', '', '', '', '']
   ];
 
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.words = randomWords({ exactly: 5, maxLength: 5 });
@@ -56,5 +59,17 @@ export class AppComponent implements OnInit {
   enterWord() {
     this.myRow += 1;
     this.myCol = 0;
+  }
+
+  helpDialog() {
+    this.dialog.open(HelpDialogComponent, {
+      width: '100%'
+    });
+  }
+
+  statsDialog() {
+    this.dialog.open(StatsDialogComponent, {
+      width: '100%'
+    });
   }
 }

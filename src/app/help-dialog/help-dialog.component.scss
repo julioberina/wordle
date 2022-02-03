@@ -1,0 +1,25 @@
+span {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px 20px;
+}
+
+.wrong, .misplaced, .correct, em {
+  padding: 5px;
+}
+
+.wrong {
+  background-color: #313131;
+  color: #dddddd;
+}
+
+.misplaced {
+  background-color: #E9A11B;
+  color: #dddddd;
+}
+
+.correct {
+  background-color: #33B933;
+  color: #dddddd;
+}
