@@ -9,12 +9,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HelpDialogComponent } from './help-dialog/help-dialog.component';
 import { StatsDialogComponent } from './stats-dialog/stats-dialog.component';
+import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HelpDialogComponent,
-    StatsDialogComponent
+    StatsDialogComponent,
+    ErrorDialogComponent
   ],
   imports: [
     BrowserModule,

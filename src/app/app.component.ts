@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import * as randomWords from 'random-words';
 import { HelpDialogComponent } from './help-dialog/help-dialog.component';
 import { StatsDialogComponent } from './stats-dialog/stats-dialog.component';
+import * as checkWord from 'check-if-word';
+import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 
 enum Letter {
   Wrong,
@@ -22,6 +24,7 @@ export class AppComponent implements OnInit {
   public myWord = '';
 
   private secret = 'chess';
+  private isChecking = false;
 
   public kbFirstRow = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
   public kbSecondRow = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
@@ -65,8 +68,26 @@ export class AppComponent implements OnInit {
       return input;
     }).join('').toLowerCase();
 
-    this.myRow += 1;
-    this.myCol = 0;
+    if (guess.length < 5) {
+      this.dialog.open(ErrorDialogComponent, {
+        width: '100%',
+        data: {
+          message: 'Not enough letters!'
+        }
+      });
+    } 
+    else if (checkWord('en').check(guess)) {
+      this.myRow += 1;
+      this.myCol = 0;
+    } 
+    else {
+      this.dialog.open(ErrorDialogComponent, {
+        width: '100%',
+        data: {
+          message: 'Not a valid word!'
+        }
+      });
+    }
   }
 
   helpDialog() {
