@@ -5,7 +5,6 @@ import { HelpDialogComponent } from './help-dialog/help-dialog.component';
 import { StatsDialogComponent } from './stats-dialog/stats-dialog.component';
 
 enum Letter {
-  Blank,
   Wrong,
   Misplaced,
   Correct
@@ -21,6 +20,8 @@ export class AppComponent implements OnInit {
   public myRow = 0;
   public myCol = 0;
   public myWord = '';
+
+  private secret = 'chess';
 
   public kbFirstRow = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
   public kbSecondRow = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
@@ -57,6 +58,13 @@ export class AppComponent implements OnInit {
   }
 
   enterWord() {
+    const r = this.myRow;
+
+    const guess = [0, 1, 2, 3, 4].map(c => {
+      const input = (document.getElementById(`cell-${r}${c}`) as HTMLInputElement)?.value;
+      return input;
+    }).join('').toLowerCase();
+
     this.myRow += 1;
     this.myCol = 0;
   }
@@ -71,5 +79,45 @@ export class AppComponent implements OnInit {
     this.dialog.open(StatsDialogComponent, {
       width: '100%'
     });
+  }
+
+  private zip(secret: string, guess: string): any {
+    const tuples: any = [];
+
+    for (let i = 0; i < 5; i += 1) {
+      tuples.push([secret[i], guess[i]]);
+    }
+
+    return tuples;
+  }
+
+  private usable(secret: string, guess: string): any {
+    const map: any = {};
+
+    for (let i = 0; i < 5; i += 1) {
+      if (guess[i] !== secret[i]) {
+        map[secret[i]] = map[secret[i]] ? map[secret[i]] + 1 : 1;
+      }
+    }
+
+    return map;
+  }
+
+  private score(secret: string, guess: string): any {
+    const pool = this.usable(secret, guess);
+    const result: any = [];
+
+    for (let [secret_char, guess_char] of this.zip(secret, guess)) {
+      if (secret_char === guess_char) {
+        result.push(Letter.Correct);
+      } else if (secret.includes(guess_char) && pool[guess_char] > 0) {
+        result.push(Letter.Misplaced);
+        pool[guess_char] -= 1;
+      } else {
+        result.push(Letter.Wrong);
+      }
+    }
+
+    return result;
   }
 }
