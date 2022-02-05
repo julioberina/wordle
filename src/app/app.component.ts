@@ -5,6 +5,7 @@ import { HelpDialogComponent } from './help-dialog/help-dialog.component';
 import { StatsDialogComponent } from './stats-dialog/stats-dialog.component';
 import * as checkWord from 'check-if-word';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
+import { AppService } from './app.service';
 
 enum Letter {
   Wrong,
@@ -23,7 +24,7 @@ export class AppComponent implements OnInit {
   public myCol = 0;
   public myWord = '';
 
-  private secret = 'chess';
+  private secret = '';
   private isChecking = false;
 
   public kbFirstRow = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
@@ -40,10 +41,13 @@ export class AppComponent implements OnInit {
     ['', '', '', '', '']
   ];
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog,
+              private appService: AppService) { }
 
-  ngOnInit(): void {
-    this.words = randomWords({ exactly: 5, maxLength: 5 });
+  ngOnInit(): void { 
+    this.words = this.appService.getWords().default;
+    this.shuffleArray(this.words);
+    this.secret = this.words[this.getRandomInt(this.words.length)];
   }
 
   typeLetter(letter: string) {
@@ -76,7 +80,7 @@ export class AppComponent implements OnInit {
         }
       });
     } 
-    else if (checkWord('en').check(guess)) {
+    else if (this.words.includes(guess)) {
       this.myRow += 1;
       this.myCol = 0;
     } 
@@ -140,5 +144,18 @@ export class AppComponent implements OnInit {
     }
 
     return result;
+  }
+
+  private shuffleArray(array: any) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+  }
+
+  private getRandomInt(max: number): number {
+    return Math.floor(Math.random() * max);
   }
 }
