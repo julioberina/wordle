@@ -1,0 +1,13 @@
+.secret {
+  font-size: 12pt;
+}
+
+.stats-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+
+  span {
+    width: 50%;
+  }
+}

@@ -1,8 +1,21 @@
 <h1 mat-dialog-title>WORDLE Stats</h1>
 <div mat-dialog-content>
-  <p>Stats dialog</p>
+  <p class="secret" *ngIf="isGameOver">
+    The secret word was <strong>{{ secret }}</strong>
+  </p>
+
+  <div class="stats-container">
+    <span>
+      <p>Games Played</p>
+      <h1>{{ gamesPlayed }}</h1>
+    </span>
+    <span>
+      <p>Games Won</p>
+      <h1>{{ gamesWon }}</h1>
+    </span>
+  </div>
 </div>
 <div mat-dialog-actions align="end">
   <button mat-raised-button mat-dialog-close>Close</button>
-  <button mat-raised-button color="primary">Play Again</button>
+  <button mat-raised-button *ngIf="isGameOver" [mat-dialog-close]="true" color="primary">Play Again</button>
 </div>

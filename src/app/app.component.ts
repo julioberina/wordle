@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import * as randomWords from 'random-words';
 import { HelpDialogComponent } from './help-dialog/help-dialog.component';
 import { StatsDialogComponent } from './stats-dialog/stats-dialog.component';
@@ -22,10 +22,10 @@ export class AppComponent implements OnInit {
   
   public myRow = 0;
   public myCol = 0;
-  public myWord = '';
 
   private secret = '';
-  private isChecking = false;
+  private wstats: any;
+  private guesses: string[] = [];
 
   public kbFirstRow = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
   public kbSecondRow = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
@@ -45,26 +45,42 @@ export class AppComponent implements OnInit {
               private appService: AppService) { }
 
   ngOnInit(): void { 
+    this.getwStats();
     this.words = this.appService.getWords().default;
     this.shuffleArray(this.words);
-    this.secret = this.words[this.getRandomInt(this.words.length)];
+  }
+
+  ngAfterViewInit(): void {
+    this.resumeGame();
+    if (!this.wstats.secret)  this.startGame();
+  }
+
+  savewStats(): void {
+    this.wstats.myRow = this.myRow;
+    this.wstats.myCol = 0;
+    this.wstats.secret = this.secret;
+    this.wstats.grid = this.grid;
+    this.wstats.guesses = this.guesses;
+    localStorage.setItem('wstats', JSON.stringify(this.wstats));
   }
 
   typeLetter(letter: string) {
-    if (this.myRow < 6 && this.myCol < 5) {
+    if (!this.wstats.isGameOver && this.myCol < 5) {
       this.grid[this.myRow][this.myCol] = letter;
       this.myCol += 1;
     }
   }
 
   eraseLetter() {
-    if (this.myRow < 6 && this.myCol) {
+    if (!this.wstats.isGameOver && this.myCol) {
       this.grid[this.myRow][this.myCol - 1] = '';
       this.myCol -= 1;
     }
   }
 
   enterWord() {
+    if (this.wstats.isGameOver) { return; }
+
     const r = this.myRow;
     const guess = this.grid[r].join('').toLowerCase();
 
@@ -84,6 +100,8 @@ export class AppComponent implements OnInit {
       const score = this.score(this.secret, guess);
       const colors = ['wrong', 'misplaced', 'correct'];
 
+      this.guesses.push(guess);
+
       const markGrid = setInterval(() => {
 
         const cell = document.getElementById(`cell-${r}${c}`) as HTMLInputElement;
@@ -99,12 +117,22 @@ export class AppComponent implements OnInit {
 
         c += 1;
 
-        if (c == 5) { clearInterval(markGrid); }
+        if (c === 5) { clearInterval(markGrid); }
 
       }, 400);
 
-      this.myRow += 1;
-      this.myCol = 0;
+      if (score.reduce((a: number, b: number) => a + b) === 10) {
+        this.wstats.isGameOver = true;
+        this.wstats.gamesPlayed += 1;
+        this.wstats.gamesWon += 1;
+      } else { 
+        this.myRow += 1;
+        this.myCol = 0;
+        this.wstats.isGameOver = (this.myRow === 6);
+        this.wstats.gamesPlayed += ((this.myRow === 6 && 1) || 0);
+      }
+
+      this.savewStats();
     } 
     else {
       this.dialog.open(ErrorDialogComponent, {
@@ -123,9 +151,18 @@ export class AppComponent implements OnInit {
   }
 
   statsDialog() {
-    this.dialog.open(StatsDialogComponent, {
-      width: '100%'
+    const dialogRef = this.dialog.open(StatsDialogComponent, {
+      width: '100%',
+      data: {
+        wstats: this.wstats
+      }
     });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.startGame();
+      }
+    })
   }
 
   private zip(secret: string, guess: string): any {
@@ -179,5 +216,79 @@ export class AppComponent implements OnInit {
 
   private getRandomInt(max: number): number {
     return Math.floor(Math.random() * max);
+  }
+
+  private getwStats() {
+    this.wstats = JSON.parse(localStorage.getItem('wstats') || '{}');
+    this.wstats.gamesPlayed = this.wstats.gamesPlayed || 0;
+    this.wstats.gamesWon = this.wstats.gamesWon || 0;
+    this.wstats.isGameOver = this.wstats.isGameOver || false;
+
+    this.myRow = this.wstats.myRow || this.myRow;
+    this.myCol = this.wstats.myCol || this.myCol;
+    this.guesses = this.wstats.guesses || this.guesses;
+    this.grid = this.wstats.grid || this.grid;
+    this.secret = this.wstats.secret || this.secret;
+  }
+
+  private startGame() {
+    this.secret = this.words[this.getRandomInt(this.words.length)];
+    this.wstats.secret = this.secret;
+    this.myRow = 0;
+    this.myCol = 0;
+    this.guesses = [];
+    this.grid = [
+      ['', '', '', '', ''], 
+      ['', '', '', '', ''], 
+      ['', '', '', '', ''], 
+      ['', '', '', '', ''], 
+      ['', '', '', '', ''], 
+      ['', '', '', '', '']
+    ];
+
+    this.wstats.isGameOver = false;
+    this.savewStats();
+    this.resetGrid();
+    this.resetKeyboard();
+  }
+
+  private resumeGame() {
+    if (this.secret && this.guesses.length > 0) {
+      const colors = ['wrong', 'misplaced', 'correct'];
+
+      for (let r = 0; r < this.guesses.length; ++r) {
+        const guess = this.guesses[r];
+        const score = this.score(this.secret, guess);
+
+        for (let c = 0; c < 5; ++c) {
+          const cell = document.getElementById(`cell-${r}${c}`) as HTMLInputElement;
+          const letter = document.getElementById(`key${this.grid[r][c]}`) as HTMLButtonElement;
+          const cname = colors[score[c]];
+          const kcname = letter.className;
+    
+          cell!.className = cname;
+          
+          if (kcname === 'blank' || (kcname === 'misplaced' && cname === 'correct')) { 
+            letter.className = cname;
+          }
+        }
+      }
+    }
+  }
+
+  private resetGrid() {
+    for (let r = 0; r < 6; ++r) {
+      for (let c = 0; c < 5; ++c) {
+        const cell = document.getElementById(`cell-${r}${c}`) as HTMLInputElement;
+        cell!.className = 'blank';
+      }
+    }
+  }
+
+  private resetKeyboard() {
+    for (let k of this.kbFirstRow.concat(this.kbSecondRow).concat(this.kbThirdRow)) {
+      const letter = document.getElementById(`key${k}`) as HTMLButtonElement;
+      letter!.className = 'blank';
+    }
   }
 }
