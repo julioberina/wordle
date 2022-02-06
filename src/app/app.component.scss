@@ -4,6 +4,12 @@ mat-toolbar {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  .title {
+    font-family: serif;
+    font-weight: bold;
+    font-size: 16pt;
+  }
 }
 
 .container {

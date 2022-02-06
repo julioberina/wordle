@@ -125,14 +125,16 @@ export class AppComponent implements OnInit {
         this.wstats.isGameOver = true;
         this.wstats.gamesPlayed += 1;
         this.wstats.gamesWon += 1;
+        this.savewStats();
+        setTimeout(() => { this.statsDialog(); }, 2400);
       } else { 
         this.myRow += 1;
         this.myCol = 0;
         this.wstats.isGameOver = (this.myRow === 6);
         this.wstats.gamesPlayed += ((this.myRow === 6 && 1) || 0);
+        this.savewStats();
+        if (this.wstats.isGameOver) { setTimeout(() => { this.statsDialog(); }, 2400); }
       }
-
-      this.savewStats();
     } 
     else {
       this.dialog.open(ErrorDialogComponent, {
