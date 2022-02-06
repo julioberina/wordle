@@ -16,6 +16,7 @@ mat-toolbar {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   height: 90%;
 
   .grid {
@@ -36,10 +37,6 @@ mat-toolbar {
           text-align: center;
           font-size: 24pt;
           font-weight: bold;
-          //background-color: #E32929; //(blank)
-          //background-color: #313131; //(wrong)
-          //background-color: #E9A11B; //(misplaced)
-          //background-color: #33B933; //(correct)
           color: #dddddd;
         }
 
