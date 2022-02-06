@@ -15,7 +15,7 @@
   <div class="grid">
     <div class="row" *ngFor="let row of grid; index as r">
       <span *ngFor="let col of row; index as c" class="cell">
-        <input id="cell-{{r}}{{c}}" type="text" [value]="col" disabled />
+        <input id="cell-{{r}}{{c}}" class="blank" type="text" [value]="col" disabled />
       </span>
     </div>
   </div>
@@ -23,25 +23,25 @@
   <div class="keyboard">
     <div class="row">
       <span class="key" *ngFor="let key of kbFirstRow">
-        <button id="key{{key}}" (click)="typeLetter(key)">{{ key }}</button>
+        <button id="key{{key}}" class="blank" (click)="typeLetter(key)">{{ key }}</button>
       </span>
     </div>
     <div class="row">
       <span class="key" *ngFor="let key of kbSecondRow">
-        <button id="key{{key}}" (click)="typeLetter(key)">{{ key }}</button>
+        <button id="key{{key}}" class="blank" (click)="typeLetter(key)">{{ key }}</button>
       </span>
     </div>
     <div class="row">
       <span class="key">
-        <button id="return" (click)="enterWord()">
+        <button id="return" class="blank" (click)="enterWord()">
           <mat-icon>keyboard_return</mat-icon>
         </button>
       </span>
       <span class="key" *ngFor="let key of kbThirdRow">
-        <button id="key{{key}}" (click)="typeLetter(key)">{{ key }}</button>
+        <button id="key{{key}}" class="blank" (click)="typeLetter(key)">{{ key }}</button>
       </span>
       <span class="key">
-        <button id="backspace" (click)="eraseLetter()">
+        <button id="backspace" class="blank" (click)="eraseLetter()">
           <mat-icon>backspace</mat-icon>
         </button>
       </span>

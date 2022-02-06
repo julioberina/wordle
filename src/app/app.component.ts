@@ -51,14 +51,14 @@ export class AppComponent implements OnInit {
   }
 
   typeLetter(letter: string) {
-    if (this.myCol < 5) {
+    if (this.myRow < 6 && this.myCol < 5) {
       this.grid[this.myRow][this.myCol] = letter;
       this.myCol += 1;
     }
   }
 
   eraseLetter() {
-    if (this.myCol) {
+    if (this.myRow < 6 && this.myCol) {
       this.grid[this.myRow][this.myCol - 1] = '';
       this.myCol -= 1;
     }
@@ -66,11 +66,7 @@ export class AppComponent implements OnInit {
 
   enterWord() {
     const r = this.myRow;
-
-    const guess = [0, 1, 2, 3, 4].map(c => {
-      const input = (document.getElementById(`cell-${r}${c}`) as HTMLInputElement)?.value;
-      return input;
-    }).join('').toLowerCase();
+    const guess = this.grid[r].join('').toLowerCase();
 
     if (guess.length < 5) {
       this.dialog.open(ErrorDialogComponent, {
@@ -81,6 +77,32 @@ export class AppComponent implements OnInit {
       });
     } 
     else if (this.words.includes(guess)) {
+
+      let c = 0;
+
+      const r = this.myRow;
+      const score = this.score(this.secret, guess);
+      const colors = ['wrong', 'misplaced', 'correct'];
+
+      const markGrid = setInterval(() => {
+
+        const cell = document.getElementById(`cell-${r}${c}`) as HTMLInputElement;
+        const letter = document.getElementById(`key${this.grid[r][c]}`) as HTMLButtonElement;
+        const cname = colors[score[c]];
+        const kcname = letter.className;
+
+        cell!.className = cname;
+        
+        if (kcname === 'blank' || (kcname === 'misplaced' && cname === 'correct')) { 
+          letter.className = cname;
+        }
+
+        c += 1;
+
+        if (c == 5) { clearInterval(markGrid); }
+
+      }, 400);
+
       this.myRow += 1;
       this.myCol = 0;
     } 
