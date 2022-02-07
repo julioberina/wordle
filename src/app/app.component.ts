@@ -91,9 +91,10 @@ export class AppComponent implements OnInit {
 
     if (guess.length < 5) {
       this.snackBar.open('Not enough letters!', 'Close', {
-        duration: 1000,
+        duration: 2000,
         horizontalPosition: 'center',
-        verticalPosition: 'top'
+        verticalPosition: 'top',
+        panelClass: ['snack']
       });
       // this.dialog.open(ErrorDialogComponent, {
       //   width: '100%',
@@ -148,9 +149,10 @@ export class AppComponent implements OnInit {
     } 
     else {
       this.snackBar.open('Not a valid word!', 'Close', {
-        duration: 1000,
+        duration: 2000,
         horizontalPosition: 'center',
-        verticalPosition: 'top'
+        verticalPosition: 'top',
+        panelClass: ['snack']
       });
       // this.dialog.open(ErrorDialogComponent, {
       //   width: '100%',
