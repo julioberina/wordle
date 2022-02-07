@@ -7,6 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HelpDialogComponent } from './help-dialog/help-dialog.component';
 import { StatsDialogComponent } from './stats-dialog/stats-dialog.component';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
@@ -27,6 +28,7 @@ import { environment } from '../environments/environment';
     MatIconModule,
     MatButtonModule,
     MatDialogModule,
+    MatSnackBarModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable

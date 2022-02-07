@@ -6,6 +6,7 @@ import { StatsDialogComponent } from './stats-dialog/stats-dialog.component';
 import * as checkWord from 'check-if-word';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { AppService } from './app.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 enum Letter {
   Wrong,
@@ -42,6 +43,7 @@ export class AppComponent implements OnInit {
   ];
 
   constructor(private dialog: MatDialog,
+              private snackBar: MatSnackBar,
               private appService: AppService) { }
 
   ngOnInit(): void { 
@@ -85,12 +87,17 @@ export class AppComponent implements OnInit {
     const guess = this.grid[r].join('').toLowerCase();
 
     if (guess.length < 5) {
-      this.dialog.open(ErrorDialogComponent, {
-        width: '100%',
-        data: {
-          message: 'Not enough letters!'
-        }
+      this.snackBar.open('Not enough letters!', 'Close', {
+        duration: 1000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
       });
+      // this.dialog.open(ErrorDialogComponent, {
+      //   width: '100%',
+      //   data: {
+      //     message: 'Not enough letters!'
+      //   }
+      // });
     } 
     else if (this.words.includes(guess)) {
 
@@ -137,12 +144,17 @@ export class AppComponent implements OnInit {
       }
     } 
     else {
-      this.dialog.open(ErrorDialogComponent, {
-        width: '100%',
-        data: {
-          message: 'Not a valid word!'
-        }
+      this.snackBar.open('Not a valid word!', 'Close', {
+        duration: 1000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
       });
+      // this.dialog.open(ErrorDialogComponent, {
+      //   width: '100%',
+      //   data: {
+      //     message: 'Not a valid word!'
+      //   }
+      // });
     }
   }
 
