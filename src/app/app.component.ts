@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
   public kbSecondRow = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
   public kbThirdRow = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
 
+  public answers: string[] = [];
   public words: string[] = [];
   public grid: string[][] = [
     ['', '', '', '', ''], 
@@ -51,7 +52,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void { 
     this.getwStats();
     this.words = this.appService.getWords().default;
-    this.shuffleArray(this.words);
+    this.answers = this.appService.getAnswers().default;
+    this.shuffleArray(this.answers);
   }
 
   ngAfterViewInit(): void {
@@ -252,7 +254,7 @@ export class AppComponent implements OnInit {
   }
 
   private startGame() {
-    this.secret = this.words[this.getRandomInt(this.words.length)];
+    this.secret = this.answers[this.getRandomInt(this.answers.length)];
     this.wstats.secret = this.secret;
     this.myRow = 0;
     this.myCol = 0;
