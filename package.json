@@ -22,6 +22,7 @@
     "@angular/router": "~12.2.0",
     "@angular/service-worker": "~12.2.0",
     "check-if-word": "^1.2.1",
+    "ngx-cookie-service": "^13.1.2",
     "random-words": "^1.1.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
