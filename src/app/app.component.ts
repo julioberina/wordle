@@ -122,7 +122,7 @@ export class AppComponent implements OnInit {
 
         cell!.className = cname;
         
-        if (kcname === 'blank' || (colors.indexOf(kcname) <= score[c])) { 
+        if (kcname === 'blank' || (colors.indexOf(kcname) < score[c])) { 
           letter.className = cname;
         }
 
