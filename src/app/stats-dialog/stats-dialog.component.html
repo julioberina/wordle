@@ -15,7 +15,8 @@
     </span>
   </div>
 </div>
+
 <div mat-dialog-actions align="end">
   <button mat-raised-button mat-dialog-close>Close</button>
-  <button mat-raised-button *ngIf="isGameOver" [mat-dialog-close]="true" color="primary">Play Again</button>
+  <button mat-raised-button id="playAgain" *ngIf="isGameOver" [mat-dialog-close]="true" color="primary">Play Again</button>
 </div>
