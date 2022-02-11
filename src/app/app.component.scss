@@ -78,3 +78,11 @@ mat-toolbar {
     }
   }
 }
+
+@media screen and (min-width: 400px) {
+  .key {
+    button {
+      min-width: 32px;
+    }
+  }
+}

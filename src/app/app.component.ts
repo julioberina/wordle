@@ -92,7 +92,7 @@ export class AppComponent implements OnInit {
     const guess = this.grid[r].join('').toLowerCase();
 
     if (guess.length < 5) {
-      this.snackBar.open('Not enough letters!', 'Close', {
+      this.snackBar.open('Not enough letters!', void 0, {
         duration: 2000,
         horizontalPosition: 'center',
         verticalPosition: 'top',
@@ -150,7 +150,7 @@ export class AppComponent implements OnInit {
       }
     } 
     else {
-      this.snackBar.open('Not a valid word!', 'Close', {
+      this.snackBar.open('Not a valid word!', void 0, {
         duration: 2000,
         horizontalPosition: 'center',
         verticalPosition: 'top',
