@@ -67,8 +67,8 @@ export class AppComponent implements OnInit {
     this.wstats.secret = this.secret;
     this.wstats.grid = this.grid;
     this.wstats.guesses = this.guesses;
-    //localStorage.setItem('wstats', JSON.stringify(this.wstats));
-    this.cookieService.set('wstats', JSON.stringify(this.wstats));
+    localStorage.setItem('wstats', JSON.stringify(this.wstats));
+    //this.cookieService.set('wstats', JSON.stringify(this.wstats));
   }
 
   typeLetter(letter: string) {
@@ -98,12 +98,6 @@ export class AppComponent implements OnInit {
         verticalPosition: 'top',
         panelClass: ['snack']
       });
-      // this.dialog.open(ErrorDialogComponent, {
-      //   width: '100%',
-      //   data: {
-      //     message: 'Not enough letters!'
-      //   }
-      // });
     } 
     else if (this.words.includes(guess)) {
 
@@ -156,12 +150,6 @@ export class AppComponent implements OnInit {
         verticalPosition: 'top',
         panelClass: ['snack']
       });
-      // this.dialog.open(ErrorDialogComponent, {
-      //   width: '100%',
-      //   data: {
-      //     message: 'Not a valid word!'
-      //   }
-      // });
     }
   }
 
@@ -240,8 +228,8 @@ export class AppComponent implements OnInit {
   }
 
   private getwStats() {
-    //this.wstats = JSON.parse(localStorage.getItem('wstats') || '{}');
-    this.wstats = JSON.parse(this.cookieService.get('wstats') || '{}');
+    this.wstats = JSON.parse(localStorage.getItem('wstats') || '{}');
+    //this.wstats = JSON.parse(this.cookieService.get('wstats') || '{}');
     this.wstats.gamesPlayed = this.wstats.gamesPlayed || 0;
     this.wstats.gamesWon = this.wstats.gamesWon || 0;
     this.wstats.isGameOver = this.wstats.isGameOver || false;
